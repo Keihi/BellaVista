@@ -7,6 +7,18 @@ public class ObjFornecedor {
 
     public ObjFornecedor() {
     }
+
+    public ObjFornecedor(int codigo, String nome) {
+        this.codigo = codigo;
+        this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome; //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
     public ObjFornecedor(int codigo, String nome, String telefone) {
         this.codigo = codigo;

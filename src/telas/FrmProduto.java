@@ -8,8 +8,10 @@ package telas;
 import dao.CategoriaDAO;
 import dao.FornecedorDAO;
 import dao.ProdutoDAO;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import model.ObjCategoria;
 import model.ObjFornecedor;
@@ -37,6 +39,7 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         carregarFornecedor();
         lblCodigo.setText("");
         novo = true;
+        
     }
     
     public FrmProduto(int codigo, ListProdutos telaListProdutos) {
@@ -93,7 +96,7 @@ public class FrmProduto extends javax.swing.JInternalFrame {
     
     private void carregarFornecedor(){
         listaDeFornecedor = FornecedorDAO.getFornecedores();
-        ObjFornecedor fake = new ObjFornecedor(0,"Selecione",);
+        ObjFornecedor fake = new ObjFornecedor(0,"Selecione");
         listaDeFornecedor.add(0, fake);
         
         DefaultComboBoxModel modelo  = new DefaultComboBoxModel();
@@ -221,7 +224,7 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         armazenamento.add(rbNaoRefrigerado);
         rbNaoRefrigerado.setText("Não Refrigerado");
 
-        txtCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         txtCusto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCusto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,11 +261,11 @@ public class FrmProduto extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(cmbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(cmbFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmbFornecedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(18, 18, 18)
@@ -329,7 +332,7 @@ public class FrmProduto extends javax.swing.JInternalFrame {
                     .addComponent(txtPrecoDeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbRefrigerado)
                     .addComponent(rbNaoRefrigerado))
@@ -378,11 +381,13 @@ public class FrmProduto extends javax.swing.JInternalFrame {
           pro.setCategoria(categoria);
           pro.setFornecedor(fornecedor);
           pro.setQuantidade( Integer.valueOf(txtQuantidade.getText()));
-          pro.setCusto(Integer.valueOf(txtCusto.getText()));
+          String custo = txtCusto.getText();
+          custo = custo.replace(",", ".");
+          pro.setCusto( Float.valueOf(custo) );
           pro.setPrecoDeVenda(Integer.valueOf(txtPrecoDeVenda.getText()));
-          if(rbRefrigerado.isSelected()){
-              pro.isRefrigerado();
-          }
+          
+          pro.setRefrigerado( rbRefrigerado.isSelected() );
+          
           pro.setComentario(txtComentario.getText());
           if( novo ){
               ProdutoDAO.inserir(pro);

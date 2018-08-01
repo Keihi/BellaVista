@@ -182,19 +182,19 @@ public class telaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCadastrarProdutoActionPerformed
 
     private void menuListarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListarCategoriasActionPerformed
-        ListCategorias tela = new ListCategorias();
+        ListCategorias tela = new ListCategorias(jdpTelaInicial);
         jdpTelaInicial.add(tela);
         tela.setVisible(true);
     }//GEN-LAST:event_menuListarCategoriasActionPerformed
 
     private void MenuListarFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuListarFornecedoresActionPerformed
-        ListFornecedores tela = new ListFornecedores();
+        ListFornecedores tela = new ListFornecedores(jdpTelaInicial);
         jdpTelaInicial.add(tela);
         tela.setVisible(true);
     }//GEN-LAST:event_MenuListarFornecedoresActionPerformed
 
     private void menuListarProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListarProdutosActionPerformed
-        ListProdutos tela = new ListProdutos();
+        ListProdutos tela = new ListProdutos(jdpTelaInicial);
         jdpTelaInicial.add(tela);
         tela.setVisible(true);
     }//GEN-LAST:event_menuListarProdutosActionPerformed

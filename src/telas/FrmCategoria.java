@@ -5,6 +5,9 @@
  */
 package telas;
 
+import dao.CategoriaDAO;
+import model.ObjCategoria;
+
 /**
  *
  * @author Pichau
@@ -14,8 +17,29 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadastrarCategoria
      */
+    
+    private ObjCategoria categoria;
+    private boolean novo;
+    private ListCategorias telaListCategorias;
+    
     public FrmCategoria() {
         initComponents();
+        lblCodigo.setText("");
+        categoria = new ObjCategoria();
+        novo  = true;
+    }
+    
+    public FrmCategoria(int codigo, ListCategorias telaListCategorias) {
+        initComponents();
+        categoria = CategoriaDAO.getCidadeByCodigo(codigo);
+        carregarFormulario();
+        novo = false;
+        this.telaListCategorias = telaListCategorias;
+    }
+    
+    private void carregarFormulario(){
+        lblCodigo.setText(String.valueOf(categoria.getCodigo()));
+        txtNome.setText(categoria.getNome());
     }
 
     /**
@@ -59,6 +83,11 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +133,22 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         txtNome.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        String nome = txtNome.getText();
+        if( !nome.isEmpty()){
+            //ObjCategoria categoria = new ObjCategoria();
+            categoria.setNome( txtNome.getText());
+            if( novo ){
+                CategoriaDAO.inserir( categoria );
+            }else{
+                CategoriaDAO.editar( categoria );
+                telaListCategorias.carregarTabela();
+                this.dispose();
+            }
+            txtNome.setText("");
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,6 +5,16 @@
  */
 package telas;
 
+import dao.CategoriaDAO;
+import dao.FornecedorDAO;
+import dao.ProdutoDAO;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import model.ObjCategoria;
+import model.ObjFornecedor;
+import model.ObjProduto;
+
 /**
  *
  * @author Pichau
@@ -14,9 +24,86 @@ public class FrmProduto extends javax.swing.JInternalFrame {
     /**
      * Creates new form FrmProduto
      */
+    
+    private boolean novo;
+    private Object produto;
+    private List<ObjCategoria> listaDeCategoria;
+    private List<ObjFornecedor>  listaDeFornecedor;
+    private ListProdutos telaListProdutos;
+    
     public FrmProduto() {
         initComponents();
+        carregarCategoria();
+        carregarFornecedor();
+        lblCodigo.setText("");
+        novo = true;
     }
+    
+    public FrmProduto(int codigo, ListProdutos telaListProdutos) {
+        initComponents();
+        carregarCategoria();
+        carregarFornecedor();
+        novo = false;
+        produto = ProdutoDAO.getProdutosByCodigo(codigo);
+        carregarFormulario();
+    }
+    
+    private void carregarFormulario(){
+        ObjProduto pro = (ObjProduto) produto;
+        lblCodigo.setText(String.valueOf(pro.getCodigo()));
+        txtNome.setText( pro.getNome());
+        txtQuantidade.setText(String.valueOf(pro.getQuantidade()));
+        txtCusto.setText(String.valueOf(pro.getCusto()));
+        txtPrecoDeVenda.setText(String.valueOf(pro.getPrecoDeVenda()));
+        txtComentario.setText(pro.getComentario());
+        
+        for (int i = 1; i<listaDeCategoria.size();i++){
+            ObjCategoria cat = listaDeCategoria.get(i);
+            if(cat.getCodigo()== pro.getCategoria().getCodigo()){
+                cmbCategoria.setSelectedIndex(i);
+                break;
+            }
+        }
+        for (int i = 1; i<listaDeFornecedor.size();i++){
+            ObjFornecedor forn = listaDeFornecedor.get(i);
+            if(forn.getCodigo()== pro.getFornecedor().getCodigo()){
+                cmbFornecedor.setSelectedIndex(i);
+                break;
+            }
+        }
+        if(pro.isRefrigerado()){
+            rbRefrigerado.isSelected();
+        }else{
+            rbNaoRefrigerado.isSelected();
+        }
+    }
+    
+    private void carregarCategoria(){
+        listaDeCategoria = CategoriaDAO.getCategorias();
+        ObjCategoria fake  = new ObjCategoria(0, "Selecione...");
+        listaDeCategoria.add( 0, fake );
+        
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        
+        for ( ObjCategoria cat : listaDeCategoria){
+            modelo.addElement(cat);
+        }
+        cmbCategoria.setModel(modelo);
+    }
+    
+    private void carregarFornecedor(){
+        listaDeFornecedor = FornecedorDAO.getFornecedores();
+        ObjFornecedor fake = new ObjFornecedor(0,"Selecione",);
+        listaDeFornecedor.add(0, fake);
+        
+        DefaultComboBoxModel modelo  = new DefaultComboBoxModel();
+        
+        for (ObjFornecedor forn : listaDeFornecedor){
+            modelo.addElement(forn);
+        }
+        cmbFornecedor.setModel(modelo);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,10 +128,6 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         txtNome = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtQuantidade = new javax.swing.JTextPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtCusto = new javax.swing.JTextPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        txtPreçoDeVenda = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
         txtComentario = new javax.swing.JTextPane();
         btnLimpar = new javax.swing.JButton();
@@ -54,6 +137,8 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         rbRefrigerado = new javax.swing.JRadioButton();
         rbNaoRefrigerado = new javax.swing.JRadioButton();
+        txtCusto = new javax.swing.JFormattedTextField();
+        txtPrecoDeVenda = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -94,12 +179,6 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         txtQuantidade.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jScrollPane2.setViewportView(txtQuantidade);
 
-        txtCusto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jScrollPane3.setViewportView(txtCusto);
-
-        txtPreçoDeVenda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jScrollPane4.setViewportView(txtPreçoDeVenda);
-
         txtComentario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jScrollPane5.setViewportView(txtComentario);
 
@@ -111,9 +190,19 @@ public class FrmProduto extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         cmbCategoria.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Categoria", "Categoria 2" }));
+        cmbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCategoriaActionPerformed(evt);
+            }
+        });
 
         cmbFornecedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cmbFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Fornecedor", "fornecedor 2" }));
@@ -123,9 +212,30 @@ public class FrmProduto extends javax.swing.JInternalFrame {
 
         armazenamento.add(rbRefrigerado);
         rbRefrigerado.setText("Refrigerado");
+        rbRefrigerado.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rbRefrigeradoStateChanged(evt);
+            }
+        });
 
         armazenamento.add(rbNaoRefrigerado);
         rbNaoRefrigerado.setText("Não Refrigerado");
+
+        txtCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtCusto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtCusto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustoActionPerformed(evt);
+            }
+        });
+
+        txtPrecoDeVenda.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
+        txtPrecoDeVenda.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrecoDeVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecoDeVendaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,11 +270,7 @@ public class FrmProduto extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane4))
+                                .addComponent(txtCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,9 +281,15 @@ public class FrmProduto extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(rbRefrigerado)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbNaoRefrigerado)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rbRefrigerado)
+                                .addGap(18, 18, 18)
+                                .addComponent(rbNaoRefrigerado))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPrecoDeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -204,17 +316,17 @@ public class FrmProduto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalvar))
+                            .addComponent(jLabel6)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnSalvar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtPrecoDeVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
@@ -232,14 +344,68 @@ public class FrmProduto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        limparFormulario();
+    }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void limparFormulario(){
         txtNome.setText("");
         cmbCategoria.setSelectedIndex(0);
         cmbFornecedor.setSelectedIndex(0);
         txtQuantidade.setText("");
         txtCusto.setText("");
-        txtPreçoDeVenda.setText("");
+        txtPrecoDeVenda.setText("");
         txtComentario.setText("");
-    }//GEN-LAST:event_btnLimparActionPerformed
+    }
+    
+    private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCategoriaActionPerformed
+
+    private void rbRefrigeradoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rbRefrigeradoStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbRefrigeradoStateChanged
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        String nome = txtNome.getText();
+        ObjCategoria categoria = (ObjCategoria) cmbCategoria.getSelectedItem();
+        ObjFornecedor fornecedor = (ObjFornecedor) cmbFornecedor.getSelectedItem();
+        if( nome.isEmpty() || categoria.getCodigo() == 0 || fornecedor.getCodigo()==0 || !rbRefrigerado.isSelected() || !rbNaoRefrigerado.isSelected()){
+            JOptionPane.showMessageDialog(this, "Preencha todos os campos obrigatorios!");
+            
+        }else{
+          ObjProduto pro = new ObjProduto();
+          pro.setNome(nome);
+          pro.setCategoria(categoria);
+          pro.setFornecedor(fornecedor);
+          pro.setQuantidade( Integer.valueOf(txtQuantidade.getText()));
+          pro.setCusto(Integer.valueOf(txtCusto.getText()));
+          pro.setPrecoDeVenda(Integer.valueOf(txtPrecoDeVenda.getText()));
+          if(rbRefrigerado.isSelected()){
+              pro.isRefrigerado();
+          }
+          pro.setComentario(txtComentario.getText());
+          if( novo ){
+              ProdutoDAO.inserir(pro);
+          }else{
+              pro.setCodigo( Integer.valueOf( lblCodigo.getText()));
+              ProdutoDAO.editar(pro);
+              telaListProdutos.carregarTabela( );
+          }
+        }
+        limparFormulario();
+        if( !novo ){
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    
+    private void txtCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustoActionPerformed
+
+    private void txtPrecoDeVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecoDeVendaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecoDeVendaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -259,16 +425,14 @@ public class FrmProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JRadioButton rbNaoRefrigerado;
     private javax.swing.JRadioButton rbRefrigerado;
     private javax.swing.JTextPane txtComentario;
-    private javax.swing.JTextPane txtCusto;
+    private javax.swing.JFormattedTextField txtCusto;
     private javax.swing.JTextPane txtNome;
-    private javax.swing.JTextPane txtPreçoDeVenda;
+    private javax.swing.JFormattedTextField txtPrecoDeVenda;
     private javax.swing.JTextPane txtQuantidade;
     // End of variables declaration//GEN-END:variables
 }

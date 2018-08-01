@@ -38,6 +38,7 @@ public class CdeSaida extends javax.swing.JInternalFrame {
         txtQuantidade = new javax.swing.JTextField();
         lblNome = new javax.swing.JLabel();
 
+        setClosable(true);
         setIconifiable(true);
         setTitle("Saida de Produtos");
 

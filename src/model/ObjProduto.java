@@ -3,7 +3,7 @@ package model;
 
 public class ObjProduto {
     private int codigo, quantidade;
-    private double custo, precoDeVenda;
+    private float custo, precoDeVenda;
     private String nome, comentario;
     private boolean refrigerado;
     private ObjCategoria categoria;
@@ -12,7 +12,7 @@ public class ObjProduto {
     public ObjProduto() {
     }
 
-    public ObjProduto(int codigo, int quantidade, double custo, double precoDeVenda, String nome, String comentario, boolean refrigerado, ObjCategoria categoria, ObjFornecedor fornecedor) {
+    public ObjProduto(int codigo, int quantidade, float custo, float precoDeVenda, String nome, String comentario, boolean refrigerado, ObjCategoria categoria, ObjFornecedor fornecedor) {
         this.codigo = codigo;
         this.quantidade = quantidade;
         this.custo = custo;
@@ -32,11 +32,11 @@ public class ObjProduto {
         return quantidade;
     }
 
-    public double getCusto() {
+    public float getCusto() {
         return custo;
     }
 
-    public double getPrecoDeVenda() {
+    public float getPrecoDeVenda() {
         return precoDeVenda;
     }
 
@@ -68,11 +68,11 @@ public class ObjProduto {
         this.quantidade = quantidade;
     }
 
-    public void setCusto(double custo) {
+    public void setCusto(float custo) {
         this.custo = custo;
     }
 
-    public void setPrecoDeVenda(double precoDeVenda) {
+    public void setPrecoDeVenda(float precoDeVenda) {
         this.precoDeVenda = precoDeVenda;
     }
 

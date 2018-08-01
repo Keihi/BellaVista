@@ -5,6 +5,13 @@
  */
 package telas;
 
+import dao.FornecedorDAO;
+import java.util.List;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ObjFornecedor;
+
 /**
  *
  * @author Pichau
@@ -14,8 +21,26 @@ public class ListFornecedores extends javax.swing.JInternalFrame {
     /**
      * Creates new form ListFornecedores
      */
-    public ListFornecedores() {
+    
+    private JDesktopPane painelTelaInicial;
+    
+    public ListFornecedores(JDesktopPane painelTelaInicial) {
         initComponents();
+        carregarTabela();
+        this.painelTelaInicial = painelTelaInicial;
+    }
+    
+    public void carregarTabela(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] colunas = {"Código", "Nome", "Telefone"};
+        modelo.setColumnIdentifiers(colunas);
+        List<ObjFornecedor> lista = FornecedorDAO.getFornecedores();
+        
+        for(ObjFornecedor forn : lista){
+            Object[] obj = {forn.getCodigo(), forn.getNome(), forn.getTelefone()};
+            modelo.addRow(obj);
+        }
+        tableFornecedores.setModel(modelo);
     }
 
     /**
@@ -57,9 +82,19 @@ public class ListFornecedores extends javax.swing.JInternalFrame {
 
         btnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +133,41 @@ public class ListFornecedores extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int linha = tableFornecedores.getSelectedRow();
+        if( linha ==  -1){
+            JOptionPane.showMessageDialog(this, "Você deve selecionar uma fornecedor!");
+            
+        }else{
+            int codigo = (int)tableFornecedores.getValueAt(linha, 0);
+            FrmFornecedor formulario = new FrmFornecedor(codigo, this);
+            this.painelTelaInicial.add(formulario);
+            formulario.setVisible(true);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int linha = tableFornecedores.getSelectedRow();
+        if ( linha == -1 ){
+            JOptionPane.showMessageDialog(this, 
+                    "Você deve selecionar uma fornecedor!");
+         
+        }else{
+            String nome = (String) tableFornecedores.getValueAt(linha, 1);
+            int resposta = JOptionPane.showConfirmDialog(this, 
+                    "Confirma a EXCLUSÃO do fornecedor "+nome+" ? ",
+                    "Excluir Fornecedor",
+                    JOptionPane.YES_NO_OPTION);
+            if(resposta == JOptionPane.YES_OPTION){
+                ObjFornecedor forn  = new ObjFornecedor();
+                int codigo = (int) tableFornecedores.getModel().getValueAt(linha, 0);
+                forn.setCodigo(codigo);
+                FornecedorDAO.excluir(forn);
+                carregarTabela();
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -36,6 +36,7 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
+        setClosable(true);
         setIconifiable(true);
         setTitle("Entrada de Produtos");
 

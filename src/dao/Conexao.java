@@ -1,4 +1,3 @@
-
 package dao;
 
 import java.sql.Connection;
@@ -8,10 +7,11 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 public class Conexao {
-    private static final String URL = "jdbc:mysql://localhost:3306/bellavista?zeroDateTimeBehavior=convertToNull";
+    private static final String URL = "jdbc:mysql://localhost:3306/BellaVista?zeroDateTimeBehavior=convertToNull";
     private static final String USER = "root";
     private static final String PASSWORD = "";
-    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DRIVER = 
+            "com.mysql.jdbc.Driver";
     
     public static boolean executar(String sql){
         try{

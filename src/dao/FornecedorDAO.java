@@ -26,8 +26,8 @@ public class FornecedorDAO {
     }
     
     public static void excluir (ObjFornecedor forn){
-     String sql = "DELETE FROM fornecedores"
-             + "WHERE codigo = "+forn.getCodigo();
+     String sql = "DELETE FROM fornecedores "
+             + " WHERE codigo = "+forn.getCodigo();
      Conexao.executar(sql);
     }
     
@@ -54,7 +54,7 @@ public class FornecedorDAO {
     public static ObjFornecedor getFornecedorByCodigo(int codigo){
         ObjFornecedor fornecedor = new ObjFornecedor();
         
-        String sql = "SELECT codigo, nome, telefone FROM fornecedor "
+        String sql = "SELECT codigo, nome, telefone FROM fornecedores "
                 + "WHERE codigo = "+codigo;
         ResultSet rs = Conexao.consultar(sql);
         try{

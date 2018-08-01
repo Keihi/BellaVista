@@ -5,6 +5,13 @@
  */
 package telas;
 
+import dao.CategoriaDAO;
+import java.util.List;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ObjCategoria;
+
 /**
  *
  * @author Pichau
@@ -14,8 +21,26 @@ public class ListCategorias extends javax.swing.JInternalFrame {
     /**
      * Creates new form ListCategorias
      */
-    public ListCategorias() {
+    
+    private JDesktopPane painelTelaInicial;
+    
+    public ListCategorias(JDesktopPane painelTelaInicial) {
         initComponents();
+        carregarTabela();
+        this.painelTelaInicial = painelTelaInicial;
+    }
+    
+    public void carregarTabela(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] colunas = { "Código", "Categoria"};
+        modelo.setColumnIdentifiers(colunas);
+        List<ObjCategoria> lista = CategoriaDAO.getCategorias();
+        
+        for(ObjCategoria cat : lista){
+            Object[] obj = { cat.getCodigo(), cat.getNome()};
+            modelo.addRow(obj);
+        }
+        tableCategorias.setModel(modelo);
     }
 
     /**
@@ -57,9 +82,19 @@ public class ListCategorias extends javax.swing.JInternalFrame {
 
         btnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +133,40 @@ public class ListCategorias extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int linha = tableCategorias.getSelectedRow();
+        if( linha == -1){
+            JOptionPane.showMessageDialog(this,
+                    " Você deve selecionar uma categoria!");
+        }else{
+            int codigo = (int) tableCategorias.getValueAt(linha, 0);
+            FrmCategoria formulario = new FrmCategoria( codigo, this );
+            this.painelTelaInicial.add( formulario );
+            formulario.setVisible(true);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int linha = tableCategorias.getSelectedRow();
+        if ( linha == -1 ){
+            JOptionPane.showMessageDialog(this,
+                    "Você deve selecionar uma categoria");
+        }else{
+            String nome = (String) tableCategorias.getValueAt(linha, 1);
+            int resposta  =  JOptionPane.showConfirmDialog(this, 
+                    "Confirma a EXCLUSÃO da categoria "+nome+" ? " ,
+                    "Excluir Categoria",
+                    JOptionPane.YES_NO_OPTION);
+            if( resposta == JOptionPane.YES_OPTION){
+                ObjCategoria cat = new ObjCategoria();
+                int codigo = (int) tableCategorias.getModel().getValueAt(linha, 0);
+                cat.setCodigo(codigo);
+                CategoriaDAO.excluir(cat);
+                carregarTabela();
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

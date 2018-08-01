@@ -5,6 +5,13 @@
  */
 package telas;
 
+import dao.ProdutoDAO;
+import java.util.List;
+import javax.swing.JDesktopPane;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.ObjProduto;
+
 /**
  *
  * @author Pichau
@@ -14,8 +21,31 @@ public class ListProdutos extends javax.swing.JInternalFrame {
     /**
      * Creates new form ListProdutos
      */
-    public ListProdutos() {
+    
+    private JDesktopPane painelTelaInicial;
+    
+    public ListProdutos(JDesktopPane painelTelaInicial) {
         initComponents();
+        carregarTabela();
+        this.painelTelaInicial = painelTelaInicial;
+        
+    }
+    
+    public void carregarTabela(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        String[] colunas = {"Código", "Nome","Categoria", "Fornecedor",
+            "Quantidade", "Custo", "Preço de Venda", "Refrigerado",
+            "Comentario"};
+        modelo.setColumnIdentifiers(colunas);
+        List<ObjProduto> lista = ProdutoDAO.getProdutos();
+        
+        for( ObjProduto pro : lista ){
+            Object[] obj = { pro.getCodigo(), pro.getNome(), pro.getCategoria(),
+            pro.getFornecedor(), pro.getQuantidade(), pro.getCusto(), pro.getPrecoDeVenda(),
+            pro.isRefrigerado(), pro.getComentario()};
+            modelo.addRow(obj);
+        }
+        tableProdutos.setModel(modelo);
     }
 
     /**
@@ -57,9 +87,19 @@ public class ListProdutos extends javax.swing.JInternalFrame {
 
         btnExcluir.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +138,41 @@ public class ListProdutos extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int linha = tableProdutos.getSelectedRow();
+        if (linha == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Você deve selecionar um produto!");
+            
+        }else{
+            String nome = (String) tableProdutos.getValueAt(linha,  1 );
+            int resposta = JOptionPane.showConfirmDialog(this, 
+                    "Confirma a exclusão do produto "+nome+" ? ",
+                    "Excluir Produto",
+                    JOptionPane.YES_NO_OPTION);
+            if( resposta == JOptionPane.YES_OPTION){
+                ObjProduto pro = new ObjProduto();
+                int codigo = (int) tableProdutos.getModel().getValueAt(linha, 0);
+                pro.setCodigo(codigo);
+                ProdutoDAO.excluir(pro);
+                carregarTabela();                        
+            }
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int linha = tableProdutos.getSelectedRow();
+        if(linha == -1){
+            JOptionPane.showMessageDialog(this, 
+                    "Você deve selecionar um produto!");
+        }else{
+            int codigo = (int) tableProdutos.getValueAt(linha, 0);
+            FrmProduto formulario = new FrmProduto(codigo, this);
+            this.painelTelaInicial.add(formulario);
+            formulario.setVisible(true);
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

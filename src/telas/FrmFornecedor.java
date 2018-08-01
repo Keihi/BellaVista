@@ -5,6 +5,9 @@
  */
 package telas;
 
+import dao.FornecedorDAO;
+import model.ObjFornecedor;
+
 /**
  *
  * @author Pichau
@@ -14,8 +17,31 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadastrarFornecedor
      */
+    
+    private ObjFornecedor fornecedor;
+    private boolean novo;
+    private ListFornecedores telaListFornecedores;
+    
     public FrmFornecedor() {
         initComponents();
+        lblCodigo.setText("");
+        fornecedor = new ObjFornecedor();
+        novo = true;
+    }
+    
+    public FrmFornecedor(int codigo, ListFornecedores telaListFornecedores) {
+        initComponents();
+        fornecedor = FornecedorDAO.getFornecedorByCodigo(codigo);
+        carregarFormulario();
+        novo = false;
+        this.telaListFornecedores = telaListFornecedores;
+        
+    }
+    
+    private void carregarFormulario(){
+        lblCodigo.setText(String.valueOf(fornecedor.getCodigo()));
+        txtNome.setText(fornecedor.getNome());
+        txtTelefone.setText(fornecedor.getTelefone());
     }
 
     /**
@@ -61,6 +87,11 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         });
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Telefone:");
@@ -122,6 +153,24 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
          txtNome.setText("");
          txtTelefone.setText("");
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        String nome = txtNome.getText();
+        String telefone = txtTelefone.getText();
+        if( !nome.isEmpty() && !telefone.isEmpty() ){
+            fornecedor.setNome( txtNome.getText());
+            fornecedor.setTelefone(txtTelefone.getText());
+            if( novo ){
+                FornecedorDAO.inserir(fornecedor);
+            }else{
+                FornecedorDAO.editar(fornecedor);
+                telaListFornecedores.carregarTabela();
+                this.dispose();
+            }
+            txtNome.setText("");
+            txtTelefone.setText("");
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

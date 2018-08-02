@@ -2,19 +2,21 @@
 package model;
 
 public class ObjProduto {
-    private int codigo, quantidade;
+    private int codigo, quantidade, estoqueMinimo;
     private float custo, precoDeVenda;
     private String nome, comentario;
     private boolean refrigerado;
     private ObjCategoria categoria;
     private ObjFornecedor fornecedor;
+    
 
     public ObjProduto() {
     }
 
-    public ObjProduto(int codigo, int quantidade, float custo, float precoDeVenda, String nome, String comentario, boolean refrigerado, ObjCategoria categoria, ObjFornecedor fornecedor) {
+    public ObjProduto(int codigo, int quantidade, int quantidadeMinima, float custo, float precoDeVenda, String nome, String comentario, boolean refrigerado, ObjCategoria categoria, ObjFornecedor fornecedor) {
         this.codigo = codigo;
         this.quantidade = quantidade;
+        this.estoqueMinimo = quantidadeMinima;
         this.custo = custo;
         this.precoDeVenda = precoDeVenda;
         this.nome = nome;
@@ -23,6 +25,16 @@ public class ObjProduto {
         this.categoria = categoria;
         this.fornecedor = fornecedor;
     }
+
+    public int getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
+
+    public void setEstoqueMinimo(int estoqueMinimo) {
+        this.estoqueMinimo = estoqueMinimo;
+    }
+
+    
 
     public int getCodigo() {
         return codigo;

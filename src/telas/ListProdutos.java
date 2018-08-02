@@ -34,14 +34,14 @@ public class ListProdutos extends javax.swing.JInternalFrame {
     public void carregarTabela(){
         DefaultTableModel modelo = new DefaultTableModel();
         String[] colunas = {"Código", "Nome","Categoria", "Fornecedor",
-            "Quantidade", "Custo", "Preço de Venda", "Refrigerado",
+            "Quantidade","Estoque Minimo", "Custo", "Preço de Venda", "Refrigerado",
             "Comentario"};
         modelo.setColumnIdentifiers(colunas);
         List<ObjProduto> lista = ProdutoDAO.getProdutos();
         
         for( ObjProduto pro : lista ){
             Object[] obj = { pro.getCodigo(), pro.getNome(), pro.getCategoria(),
-            pro.getFornecedor(), pro.getQuantidade(), pro.getCusto(), pro.getPrecoDeVenda(),
+            pro.getFornecedor(), pro.getQuantidade(), pro.getEstoqueMinimo() , pro.getCusto(), pro.getPrecoDeVenda(),
             pro.isRefrigerado(), pro.getComentario()};
             modelo.addRow(obj);
         }
@@ -106,34 +106,30 @@ public class ListProdutos extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(111, 111, 111)
+                .addComponent(btnExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEditar)
+                .addGap(224, 224, 224))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnExcluir)
-                            .addComponent(btnEditar))
-                        .addGap(24, 24, 24))))
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(btnExcluir)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnEditar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExcluir)
+                    .addComponent(btnEditar))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();

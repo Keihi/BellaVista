@@ -39,9 +39,10 @@ public class CdeSaida extends javax.swing.JInternalFrame {
     }
     
     private void carregarFormulario(){
-        txtCodigo.setText(String.valueOf(produto.getCodigo()));
+        lblCodigo.setText(String.valueOf(produto.getCodigo()));
         lblNome.setText(produto.getNome());
         txtQuantidadeCde.setText("");
+        
         
     }
 
@@ -58,8 +59,8 @@ public class CdeSaida extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
-        txtCodigo = new javax.swing.JTextField();
         txtQuantidadeCde = new javax.swing.JTextField();
+        lblCodigo = new javax.swing.JLabel();
         lblNome = new javax.swing.JLabel();
 
         setClosable(true);
@@ -83,9 +84,9 @@ public class CdeSaida extends javax.swing.JInternalFrame {
             }
         });
 
-        txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         txtQuantidadeCde.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        lblCodigo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         lblNome.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
@@ -101,7 +102,7 @@ public class CdeSaida extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -109,41 +110,49 @@ public class CdeSaida extends javax.swing.JInternalFrame {
                         .addContainerGap(170, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnConfirmar)
                         .addGap(27, 27, 27))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(90, 90, 90)
+                    .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(189, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(btnConfirmar))
-                    .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(btnConfirmar)))
+                    .addComponent(lblCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtQuantidadeCde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(47, 47, 47)
+                    .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(43, 43, 43)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        int quantidadeCde = (Integer.valueOf(txtQuantidadeCde.getText()));
+        int quantidade = Integer.valueOf(txtQuantidadeCde.getText());
         ObjProduto produto = new ObjProduto();
-        ProdutoDAO.saida(produto, quantidadeCde);
+        ProdutoDAO.saida( produto , quantidade );
         this.dispose();
         telaListProdutos.carregarTabela();
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
 
@@ -152,8 +161,8 @@ public class CdeSaida extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtQuantidadeCde;
     // End of variables declaration//GEN-END:variables
 }

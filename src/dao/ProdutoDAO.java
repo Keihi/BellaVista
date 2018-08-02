@@ -28,17 +28,15 @@ public class ProdutoDAO {
     
     public static void entrada (ObjProduto pro, int quantidade ){
         String sql = "UPDATE produtos SET "
-                + " quantidade = "+pro.getQuantidade()+" "
-                + " + "+quantidade+" "
-                + " WHERE codigo "+pro.getCodigo();
+                + " quantidade = "+pro.getQuantidade()+" + "+quantidade+" "
+                + " WHERE codigo = "+pro.getCodigo();
         Conexao.executar(sql);
     }
     
-    public static void saida (ObjProduto pro, int quantidadeCde ){
-        String sql = " UPDATE produtos SET "
-                + " quantidade = "+pro.getQuantidade()+" "
-                + " - "+quantidadeCde+" "
-                + " WHERE codigo "+pro.getCodigo();
+    public static void saida (ObjProduto pro, int quantidade ){
+        String sql = "UPDATE produtos SET "
+                + " quantidade =   "+pro.getQuantidade()+" - "+quantidade+" "
+                + " WHERE codigo = "+pro.getCodigo();
         Conexao.executar(sql);
     }
     

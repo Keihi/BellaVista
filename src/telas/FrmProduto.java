@@ -409,7 +409,14 @@ public class FrmProduto extends javax.swing.JInternalFrame {
           precodevenda = precodevenda.replace(",", ".");
           pro.setPrecoDeVenda(Float.valueOf(precodevenda));
           
-          pro.setRefrigerado( rbRefrigerado.isSelected() );
+          
+          if(( rbRefrigerado.isSelected() )){
+              pro.setRefrigerado(true);
+          }else{
+                        pro.setRefrigerado(false);
+
+          }
+
           
           pro.setComentario(txtComentario.getText());
           if( novo ){

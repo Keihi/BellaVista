@@ -41,10 +41,6 @@ public class telaInicial extends javax.swing.JFrame {
         MenuListarFornecedores = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         menuListarProdutos = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        menuSaidaDeProdutos = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        menuEntradaDeProdutos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bella Vista");
@@ -122,27 +118,6 @@ public class telaInicial extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Controle de Estoque");
-
-        menuSaidaDeProdutos.setText("Saida de Produtos");
-        menuSaidaDeProdutos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuSaidaDeProdutosActionPerformed(evt);
-            }
-        });
-        jMenu3.add(menuSaidaDeProdutos);
-        jMenu3.add(jSeparator5);
-
-        menuEntradaDeProdutos.setText("Entrada de produtos");
-        menuEntradaDeProdutos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuEntradaDeProdutosActionPerformed(evt);
-            }
-        });
-        jMenu3.add(menuEntradaDeProdutos);
-
-        jMenuBar1.add(jMenu3);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -199,18 +174,6 @@ public class telaInicial extends javax.swing.JFrame {
         tela.setVisible(true);
     }//GEN-LAST:event_menuListarProdutosActionPerformed
 
-    private void menuSaidaDeProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaidaDeProdutosActionPerformed
-        CdeSaida Cde = new CdeSaida();
-        jdpTelaInicial.add(Cde);
-        Cde.setVisible(true);
-    }//GEN-LAST:event_menuSaidaDeProdutosActionPerformed
-
-    private void menuEntradaDeProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEntradaDeProdutosActionPerformed
-        CdeEntrada Cde = new CdeEntrada();
-        jdpTelaInicial.add(Cde);
-        Cde.setVisible(true);
-    }//GEN-LAST:event_menuEntradaDeProdutosActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -250,20 +213,16 @@ public class telaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuListarFornecedores;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
-    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JDesktopPane jdpTelaInicial;
     private javax.swing.JMenuItem menuCadastrarCategoria;
     private javax.swing.JMenuItem menuCadastrarFornecedor;
     private javax.swing.JMenuItem menuCadastrarProduto;
-    private javax.swing.JMenuItem menuEntradaDeProdutos;
     private javax.swing.JMenuItem menuListarCategorias;
     private javax.swing.JMenuItem menuListarProdutos;
-    private javax.swing.JMenuItem menuSaidaDeProdutos;
     // End of variables declaration//GEN-END:variables
 }

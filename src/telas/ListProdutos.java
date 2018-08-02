@@ -62,6 +62,8 @@ public class ListProdutos extends javax.swing.JInternalFrame {
         tableProdutos = new javax.swing.JTable();
         btnExcluir = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        btnCdeSaida = new javax.swing.JButton();
+        btnCdeEntrada = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -101,22 +103,43 @@ public class ListProdutos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCdeSaida.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCdeSaida.setText("Saida de Produtos");
+        btnCdeSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCdeSaidaActionPerformed(evt);
+            }
+        });
+
+        btnCdeEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnCdeEntrada.setText("Entrada de Produts");
+        btnCdeEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCdeEntradaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(btnExcluir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEditar)
-                .addGap(224, 224, 224))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 761, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnExcluir)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCdeSaida)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCdeEntrada)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,8 +151,10 @@ public class ListProdutos extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExcluir)
-                    .addComponent(btnEditar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(btnEditar)
+                    .addComponent(btnCdeSaida)
+                    .addComponent(btnCdeEntrada))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -170,8 +195,27 @@ public class ListProdutos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnCdeSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCdeSaidaActionPerformed
+        int linha = tableProdutos.getSelectedRow();
+        if (linha == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Voce deve escolher uma linha!");
+            }else{
+            int codigo = (int) tableProdutos.getValueAt(linha, 0);
+            CdeSaida formulario = new CdeSaida (codigo, this);
+            this.painelTelaInicial.add(formulario);
+            formulario.setVisible(true);
+        }
+    }//GEN-LAST:event_btnCdeSaidaActionPerformed
+
+    private void btnCdeEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCdeEntradaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCdeEntradaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCdeEntrada;
+    private javax.swing.JButton btnCdeSaida;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JLabel jLabel1;

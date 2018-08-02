@@ -26,6 +26,24 @@ public class ProdutoDAO {
         Conexao.executar(sql);
     }
     
+    public static void entrada (ObjProduto pro, int quantidade ){
+        String sql = "UPDATE produtos SET "
+                + " quantidade = "+pro.getQuantidade()+" "
+                + " + "+quantidade+" "
+                + " WHERE codigo "+pro.getCodigo();
+        Conexao.executar(sql);
+    }
+    
+    public static void saida (ObjProduto pro, int quantidadeCde ){
+        String sql = " UPDATE produtos SET "
+                + " quantidade = "+pro.getQuantidade()+" "
+                + " - "+quantidadeCde+" "
+                + " WHERE codigo "+pro.getCodigo();
+        Conexao.executar(sql);
+    }
+    
+    
+    
     public static void editar ( ObjProduto pro ){
         String sql = "UPDATE produtos SET "
                 + " nome =         '"+pro.getNome()                  +"',  "
@@ -132,6 +150,11 @@ public class ProdutoDAO {
             JOptionPane.showMessageDialog(null, e.toString());
         }
         return produto;
+    }
+    
+    public static void carregar(int codigo){
+        ObjProduto produto = new ObjProduto();
+        
     }
     
     

@@ -112,7 +112,7 @@ public class ListProdutos extends javax.swing.JInternalFrame {
         });
 
         btnCdeEntrada.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnCdeEntrada.setText("Entrada de Produts");
+        btnCdeEntrada.setText("Entrada de Produtos");
         btnCdeEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCdeEntradaActionPerformed(evt);
@@ -209,7 +209,16 @@ public class ListProdutos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCdeSaidaActionPerformed
 
     private void btnCdeEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCdeEntradaActionPerformed
-        // TODO add your handling code here:
+        int linha = tableProdutos.getSelectedRow();
+        if (linha == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Voce deve escolher uma linha!");
+            }else{
+            int codigo = (int) tableProdutos.getValueAt(linha, 0);
+            CdeEntrada formulario = new CdeEntrada(codigo, this);
+            this.painelTelaInicial.add(formulario);
+            formulario.setVisible(true);
+        }
     }//GEN-LAST:event_btnCdeEntradaActionPerformed
 
 

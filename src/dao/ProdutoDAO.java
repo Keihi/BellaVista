@@ -27,17 +27,27 @@ public class ProdutoDAO {
     }
     
     public static void entrada (ObjProduto pro, int quantidade ){
-        String sql = "UPDATE produtos SET "
-                + " quantidade = "+pro.getQuantidade()+" + "+quantidade+" "
-                + " WHERE codigo = "+pro.getCodigo();
-        Conexao.executar(sql);
+        if(pro.getQuantidade() + quantidade >= 0){
+            int novaquantidade = pro.getQuantidade() + quantidade;
+        
+            String sql = "UPDATE produtos SET "
+                    + " quantidade =   "+novaquantidade+" "
+                    + " WHERE codigo = "+pro.getCodigo();
+            Conexao.executar(sql);
+        
+        }
     }
     
     public static void saida (ObjProduto pro, int quantidade ){
-        String sql = "UPDATE produtos SET "
-                + " quantidade =   "+pro.getQuantidade()+" - "+quantidade+" "
-                + " WHERE codigo = "+pro.getCodigo();
-        Conexao.executar(sql);
+        if(pro.getQuantidade() - quantidade >= 0){
+            int novaquantidade = pro.getQuantidade() - quantidade;
+        
+            String sql = "UPDATE produtos SET "
+                    + " quantidade =   "+novaquantidade+" "
+                    + " WHERE codigo = "+pro.getCodigo();
+            Conexao.executar(sql);
+        
+        }
     }
     
     

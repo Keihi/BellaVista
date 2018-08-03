@@ -6,6 +6,7 @@
 package telas;
 
 import dao.ProdutoDAO;
+import model.ObjProduto;
 
 /**
  *
@@ -16,8 +17,25 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
     /**
      * Creates new form CdeEntrada
      */
+    private ObjProduto produto;
+    private ListProdutos telaListProdutos;
+    
     public CdeEntrada() {
         initComponents();
+        carregarFormulario();
+          
+    }
+    public CdeEntrada (int codigo, ListProdutos telaListProdutos) {
+        initComponents();
+        produto = ProdutoDAO.getProdutosByCodigo(codigo);
+        carregarFormulario();
+        this.telaListProdutos = telaListProdutos;
+    }
+    
+    private void carregarFormulario(){
+        lblCodigo.setText(String.valueOf(produto.getCodigo()));
+        lblNome.setText(produto.getNome());
+        txtQuantidadeCde.setText("");
     }
 
     /**
@@ -31,11 +49,11 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
 
         jLabel3 = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
-        txtCodigo = new javax.swing.JTextField();
         txtQuantidadeCde = new javax.swing.JTextField();
         lblNome = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -52,8 +70,6 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
             }
         });
 
-        txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         txtQuantidadeCde.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         lblNome.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -64,6 +80,9 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Nome:");
+
+        lblCodigo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblCodigo.setText("\"Nome\"");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,7 +96,7 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblCodigo))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -97,8 +116,8 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
+                    .addComponent(lblCodigo))
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblNome)
@@ -107,14 +126,17 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtQuantidadeCde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        
+        int quantidade = Integer.valueOf(txtQuantidadeCde.getText());
+        ProdutoDAO.entrada( produto , quantidade );
+        this.dispose();
+        telaListProdutos.carregarTabela();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
 
@@ -123,8 +145,8 @@ public class CdeEntrada extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtQuantidadeCde;
     // End of variables declaration//GEN-END:variables
 }

@@ -148,7 +148,6 @@ public class CdeSaida extends javax.swing.JInternalFrame {
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         int quantidade = Integer.valueOf(txtQuantidadeCde.getText());
-        ObjProduto produto = new ObjProduto();
         ProdutoDAO.saida( produto , quantidade );
         this.dispose();
         telaListProdutos.carregarTabela();

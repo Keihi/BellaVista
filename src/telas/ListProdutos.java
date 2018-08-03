@@ -49,8 +49,15 @@ public class ListProdutos extends javax.swing.JInternalFrame {
             pro.getFornecedor(), pro.getQuantidade(), pro.getEstoqueMinimo() , pro.getCusto(), pro.getPrecoDeVenda(),
             refrigerado, pro.getComentario()};
             modelo.addRow(obj);
+            
+            if (pro.getQuantidade()< pro.getEstoqueMinimo()){
+                JOptionPane.showMessageDialog(null, "A quantidade de "+pro.getNome()+" em estoque está abaixo do estoque mínimo");
+            }
+            
         }
+        
         tableProdutos.setModel(modelo);
+        
     }
 
     /**
@@ -210,6 +217,8 @@ public class ListProdutos extends javax.swing.JInternalFrame {
             CdeSaida formulario = new CdeSaida (codigo, this);
             this.painelTelaInicial.add(formulario);
             formulario.setVisible(true);
+            
+            
         }
     }//GEN-LAST:event_btnCdeSaidaActionPerformed
 

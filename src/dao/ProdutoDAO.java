@@ -108,7 +108,7 @@ public class ProdutoDAO {
                     pro.setEstoqueMinimo(rs.getInt( 8 ));
                     pro.setCusto( rs.getFloat( 9 ));
                     pro.setPrecoDeVenda( rs.getFloat( 10 ));
-                    pro.setRefrigerado( true );
+                    pro.setRefrigerado( rs.getBoolean(11) );
                     pro.setComentario( rs.getString( 12 ));
                     lista.add(pro);
                 }

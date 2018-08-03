@@ -413,7 +413,7 @@ public class FrmProduto extends javax.swing.JInternalFrame {
           if(( rbRefrigerado.isSelected() )){
               pro.setRefrigerado(true);
           }else{
-                        pro.setRefrigerado(false);
+              pro.setRefrigerado(false);
 
           }
 

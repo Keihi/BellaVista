@@ -5,7 +5,7 @@ public class ObjProduto {
     private int codigo, quantidade, estoqueMinimo;
     private float custo, precoDeVenda;
     private String nome, comentario;
-    private boolean refrigerado = false;
+    private boolean refrigerado;
     private ObjCategoria categoria;
     private ObjFornecedor fornecedor;
     

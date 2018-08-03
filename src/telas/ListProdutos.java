@@ -40,9 +40,14 @@ public class ListProdutos extends javax.swing.JInternalFrame {
         List<ObjProduto> lista = ProdutoDAO.getProdutos();
         
         for( ObjProduto pro : lista ){
+            
+            String refrigerado = "";
+            if(  pro.isRefrigerado() )
+                refrigerado = "SIM";
+            
             Object[] obj = { pro.getCodigo(), pro.getNome(), pro.getCategoria(),
             pro.getFornecedor(), pro.getQuantidade(), pro.getEstoqueMinimo() , pro.getCusto(), pro.getPrecoDeVenda(),
-            pro.isRefrigerado(), pro.getComentario()};
+            refrigerado, pro.getComentario()};
             modelo.addRow(obj);
         }
         tableProdutos.setModel(modelo);
